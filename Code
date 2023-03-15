@@ -1,0 +1,74 @@
+package mc322;
+
+public class lab01 {
+
+	public static void main(String[] args) {
+		// Triple sum Hackerrank Solution
+		//remove duplicates --> sort arrays(a,b) --> binary search
+	
+    int []a = {1,2,3,5,7};
+    int[]b = {3,6};
+    int []c = {4,6,9};
+    
+    System.out.println(modified_binary_search(a.length,a,6));
+		
+	}
+	public static void swap(int []a,int i,int j) {
+		//
+		int d = a[i];
+		a[i] = a[j];
+		a[j] = d;
+				
+	}
+	public static int part(int []a,int s,int e) {
+		//
+		int pidx = s;
+		int p = a[e];
+		for(int i = s;i < e;i++) {
+			swap(a,a[i],a[pidx]);
+			pidx++;
+		}
+		swap(a,a[e],a[pidx]);
+		return pidx;
+	}
+	public static void quick_sort(int[]a,int s,int e) {
+		//s:start index,e:end index
+		if(s < e){
+			int p = part(a,s,e);
+			quick_sort(a,s,p-1);
+			quick_sort(a,p+1,e);
+		}
+	}
+	public static int binary_search(int l,int[]a,int i) {
+		//there is c+1 values in a that are <= i
+		int low = 0;
+		int max = l-1;
+		int c = -1;
+		while(low < max) {
+			int med = (low+max)/2;
+			if(a[med] <= i) {
+				low = med+1;
+				c = med;
+			}
+			else if(a[med] > i) {
+				max = med-1;
+			}
+		}
+		//if there is no value that is less or euqal than i
+		return c;
+	}
+	public static int triplets(int[] a,int[] b,int[] c){
+		//
+		int r = 0;
+		quick_sort(a,0,a.length-1);
+		quick_sort(c,0,c.length-1);
+		for(int i = 0;i < b.length;i++) {
+			int m = binary_search(a.length,a,b[i])+1;
+			int n =  binary_search(c.length,c,b[i])+1;
+			r += m*n;
+		}
+		return r;
+	}
+		
+	}
+
